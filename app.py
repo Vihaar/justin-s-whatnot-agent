@@ -35,8 +35,8 @@ def main():
     with st.sidebar:
         st.header("⚙️ Configuration")
         
-        # Use the built-in API key (hidden from public repo)
-        api_key = os.getenv('GOOGLE_API_KEY')
+        # Use the built-in API key from Streamlit secrets
+        api_key = st.secrets.get('GOOGLE_API_KEY')
         
         if not api_key:
             st.error("❌ API key not configured. Please contact the administrator.")
@@ -99,8 +99,7 @@ def main():
     # Main analysis logic
     if analyze_button and url:
         try:
-            # Set API key as environment variable
-            os.environ['GOOGLE_API_KEY'] = api_key
+            # API key is already available from st.secrets
             
             # Step 1: Crawl the website
             st.subheader("🕷️ Website Crawling Progress")
