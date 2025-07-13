@@ -17,23 +17,39 @@
 
 ## Streamlit Cloud Deployment
 
+### Step 1: Create New App
 1. **Go to Streamlit Cloud:**
    - Visit [share.streamlit.io](https://share.streamlit.io)
    - Sign in with GitHub
 
 2. **Deploy your app:**
    - Click "New app"
-   - Select your repository: `justins-agent-lead-qualifier`
+   - Select your repository: `vihaar/justin-s-whatnot-agent`
    - Set the path to your app: `app.py`
    - Click "Deploy"
 
-3. **Set up environment variables:**
-   - In your Streamlit Cloud app settings
-   - Go to "Secrets" section
-   - Add your Google API key (replace with your actual key):
+### Step 2: Configure Secrets
+1. **Get your Google API key:**
+   - Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - Create a new API key or copy your existing one
+
+2. **Add secrets to Streamlit Cloud:**
+   - In your app dashboard, click "Settings" (gear icon)
+   - Scroll down to "Secrets" section
+   - Click "Edit secrets"
+   - Paste this configuration:
    ```toml
    GOOGLE_API_KEY = "your_actual_api_key_here"
    ```
+   - Replace `your_actual_api_key_here` with your real API key
+   - Click "Save"
+
+### Step 3: Test Your App
+- Your app will automatically redeploy with the new secrets
+- Visit your app URL and test with a website
+- You should see "✅ Orange Slice Agent ready!" in the sidebar
+
+
 
 ## Environment Variables
 
