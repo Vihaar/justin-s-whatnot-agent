@@ -39,8 +39,8 @@ def main():
         api_key = st.secrets.get('GOOGLE_API_KEY')
         
         if not api_key:
-            st.error("❌ API key not configured. Please contact the administrator.")
-            st.stop()
+            st.warning("⚠️ API key not found in secrets. Using placeholder for testing.")
+            api_key = "test_key_for_demo"
         
         st.success("✅ Orange Slice Agent ready!")
         
@@ -159,11 +159,52 @@ def main():
                     st.error("❌ No content found to analyze. Please try a different website.")
                     return
                 
-                results = scorer.evaluate_website(website_content)
-                
-                if not results:
-                    st.error("❌ Failed to analyze website. Please check your Orange Slice Agent API key and try again.")
-                    return
+                # Check if we're in test mode
+                if api_key == "test_key_for_demo":
+                    st.warning("🧪 **TEST MODE**: Showing sample results (no API call made)")
+                    
+                    # Create sample results for testing
+                    results = {
+                        "total_score": 85,
+                        "disqualified": False,
+                        "disqualification_reasons": [],
+                        "scores": {
+                            "price": {
+                                "score": 18,
+                                "examples": [
+                                    {"item": "Sterling Silver Necklace", "price": "$45", "page": "https://example.com/necklaces"},
+                                    {"item": "Gold-plated Studs", "price": "$35", "page": "https://example.com/earrings"}
+                                ]
+                            },
+                            "channels": {
+                                "score": 18,
+                                "found_channels": ["Instagram", "Facebook", "D2C Website"],
+                                "page_references": ["https://example.com/", "https://example.com/contact"]
+                            },
+                            "contact": {
+                                "score": 20,
+                                "found": ["info@example.com", "+1 (555) 123-4567", "Instagram: @example"],
+                                "page_references": ["https://example.com/contact"]
+                            },
+                            "vertical_integration": {
+                                "score": 15,
+                                "evidence": "Mentions wholesale and business operations",
+                                "page_references": ["https://example.com/about"]
+                            },
+                            "social": {
+                                "score": 14,
+                                "evidence": "Active Instagram and Facebook presence found",
+                                "page_references": ["https://example.com/", "https://example.com/contact"]
+                            }
+                        },
+                        "summary": "This site is an excellent fit. It sells affordable jewelry with strong social media presence, provides clear contact information, and operates as a direct-to-consumer business."
+                    }
+                else:
+                    results = scorer.evaluate_website(website_content)
+                    
+                    if not results:
+                        st.error("❌ Failed to analyze website. Please check your Orange Slice Agent API key and try again.")
+                        return
                 
                 st.success("✅ Analysis complete!")
             
