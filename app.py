@@ -127,9 +127,11 @@ def main():
         
         # Generate Lead button
         generate_lead_button = st.button(
-            "🎲 Generate Random Lead",
-            type="secondary",
-            help="Randomly pick from 89 pre-scraped websites and analyze"
+            "🟧  Generate Lead",
+            type="primary",
+            use_container_width=True,
+            help=None,
+            key="generate_lead_button"
         )
     
     with col2:
@@ -144,6 +146,31 @@ def main():
         st.markdown("**Total Score: 0-100**")
         st.markdown("**Auto-disqualify** if criteria not met")
     
+    # Custom CSS for orange, big, highlighted button
+    st.markdown(
+        """
+        <style>
+        .stButton > button[data-testid="button-generate_lead_button"] {
+            background-color: #ff8800 !important;
+            color: white !important;
+            font-size: 1.3em !important;
+            font-weight: bold !important;
+            border-radius: 8px !important;
+            border: 2px solid #ff8800 !important;
+            box-shadow: 0 0 10px #ff880055 !important;
+            padding: 0.75em 2em !important;
+            margin-top: 1em !important;
+        }
+        .stButton > button[data-testid="button-generate_lead_button"]:hover {
+            background-color: #ff6600 !important;
+            border: 2px solid #ff6600 !important;
+            box-shadow: 0 0 20px #ff8800aa !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
     # Main analysis logic
     if analyze_button and url:
         try:
