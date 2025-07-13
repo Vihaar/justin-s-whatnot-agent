@@ -40,7 +40,7 @@ class LeadScorer:
     def create_evaluation_prompt(self, website_content: str) -> str:
         """Create the evaluation prompt for Gemini"""
         return f"""
-You are a lead scoring assistant. Based on the scraped website content below, return a structured JSON object to help a sales rep evaluate whether this site is a good fit.
+You are a lead scoring assistant for Whatnot jewelry sellers. Based on the scraped website content below, return a structured JSON object to help evaluate whether this site is a good fit for Whatnot.
 
 ⚠️ Only use information explicitly present in the text. Do not guess or make assumptions. Use evidence from the pages.
 
@@ -48,49 +48,64 @@ Each page is wrapped with [PAGE: URL] to help you reference where the data came 
 
 ---
 
-### Evaluate based on the following criteria:
+### Evaluate based on the following criteria (Score each 0-100):
 
-1. **Low Price Point (< $200)**  
-   - Score: 0–20  
-   - List up to 2 items < $200 with their prices (if available)
+1. **Price Point (< $200)** - MOST IMPORTANT  
+   - Score: 0–100  
+   - **CRITICAL**: Items under $200 are the strongest indicator for Whatnot
+   - List up to 3 items < $200 with their prices (if available)
    - Reference specific page URLs where prices were found
+   - **Scoring**: 90-100 if multiple items under $100, 70-89 if items under $200, 50-69 if items under $500
 
 2. **Multi-Channel Selling**  
-   - Score: 0–20  
+   - Score: 0–100  
    - Channels checked: Temu, Shein, Alibaba, **Amazon**, **Etsy**, **eBay**, **Instagram**, Facebook, Poshmark, TikTok, **D2C Website**, **Shopify**  
    - Higher signal for bolded channels
    - Reference specific page URLs where channels were found
 
 3. **Contact Info Present**  
-   - Score: 0–20  
+   - Score: 0–100  
    - Found: email, phone number, or social media handle  
    - Bonus if linked to a decision-maker
    - List the actual email and phone number found
 
 4. **Vertical Integration**  
-   - Score: 0–20  
+   - Score: 0–100  
    - Evidence: mentions of factory, wholesaler, Faire, or Etsy Wholesale
    - Reference specific page URLs where evidence was found
 
 5. **Recent Social Media Activity**  
-   - Score: 0–20  
+   - Score: 0–100  
    - Is there any post from 2023–2025 on Instagram or Facebook?
    - Reference specific page URLs where social media was found
 
 ---
 
-### Scoring Guidelines (Be Generous):
-- **Price**: Give high scores for items under $200, moderate scores for items under $500
+### Scoring Guidelines:
+- **Price Point**: This is the MOST IMPORTANT factor. Sites with items under $200 are excellent Whatnot candidates
 - **Channels**: Award points for any social media presence, website, or e-commerce platform
 - **Contact**: Give full points for any contact information found
 - **Vertical Integration**: Award points for any business-related terms or wholesale mentions
 - **Social**: Give points for any social media presence, even if no recent posts mentioned
 
-### Disqualify If:
+### IMPORTANT: Do NOT automatically disqualify for:
+- Diamonds, engagement rings, custom, handcrafted, or handmade items
+- These are just indicators, not automatic disqualifiers
+- Focus on the price point as the primary factor
+
+### Only Disqualify If:
 - All items are priced over $500  
 - Site looks completely outdated or broken  
 - No contact information whatsoever  
-- Site includes keywords: "diamonds", "engagement rings", "custom", "handcrafted", "handmade"
+
+---
+
+### Total Score (0-100):
+The total score should be INDEPENDENT of the individual scores above. It should be your overall assessment based on:
+- **Price point is weighted most heavily** (40% of consideration)
+- Sites with items under $200 are strong Whatnot candidates
+- Consider the overall business model and fit for Whatnot
+- This is NOT a sum of the individual scores
 
 ---
 
@@ -98,39 +113,39 @@ Each page is wrapped with [PAGE: URL] to help you reference where the data came 
 
 ```json
 {{
-  "total_score": 90,
+  "total_score": 85,
   "disqualified": false,
   "disqualification_reasons": [],
   "scores": {{
     "price": {{
-      "score": 18,
+      "score": 95,
       "examples": [
         {{"item": "Silver heart necklace", "price": "$45", "page": "https://example.com/necklaces"}},
         {{"item": "Gold-plated studs", "price": "$35", "page": "https://example.com/earrings"}}
       ]
     }},
     "channels": {{
-      "score": 18,
+      "score": 80,
       "found_channels": ["Instagram", "Facebook", "D2C Website"],
       "page_references": ["https://example.com/", "https://example.com/contact"]
     }},
     "contact": {{
-      "score": 20,
+      "score": 90,
       "found": ["info@example.com", "+1 (555) 123-4567", "Instagram: @example"],
       "page_references": ["https://example.com/contact"]
     }},
     "vertical_integration": {{
-      "score": 15,
+      "score": 75,
       "evidence": "Mentions wholesale and business operations",
       "page_references": ["https://example.com/about"]
     }},
     "social": {{
-      "score": 19,
+      "score": 85,
       "evidence": "Active Instagram and Facebook presence found",
       "page_references": ["https://example.com/", "https://example.com/contact"]
     }}
   }},
-  "summary": "This site is an excellent fit. It sells affordable jewelry with strong social media presence, provides clear contact information, and operates as a direct-to-consumer business."
+  "summary": "This site is an excellent fit for Whatnot. It sells affordable jewelry under $200 with strong social media presence, provides clear contact information, and operates as a direct-to-consumer business."
 }}
 ```
 
@@ -207,7 +222,7 @@ Each page is wrapped with [PAGE: URL] to help you reference where the data came 
         
         # Price scoring
         price_data = scores.get('price', {})
-        print(f"💰 Price Point (< $200): {price_data.get('score', 0)}/20")
+        print(f"💰 Price Point (< $200): {price_data.get('score', 0)}/100")
         examples = price_data.get('examples', [])
         if examples:
             print("  Examples:")
@@ -216,21 +231,21 @@ Each page is wrapped with [PAGE: URL] to help you reference where the data came 
         
         # Channel scoring
         channels_data = scores.get('channels', {})
-        print(f"\n🛒 Multi-Channel Selling: {channels_data.get('score', 0)}/20")
+        print(f"\n🛒 Multi-Channel Selling: {channels_data.get('score', 0)}/100")
         found_channels = channels_data.get('found_channels', [])
         if found_channels:
             print(f"  Found channels: {', '.join(found_channels)}")
         
         # Contact scoring
         contact_data = scores.get('contact', {})
-        print(f"\n📞 Contact Info: {contact_data.get('score', 0)}/20")
+        print(f"\n📞 Contact Info: {contact_data.get('score', 0)}/100")
         found_contact = contact_data.get('found', [])
         if found_contact:
             print(f"  Found: {', '.join(found_contact)}")
         
         # Vertical integration scoring
         vertical_data = scores.get('vertical_integration', {})
-        print(f"\n🏭 Vertical Integration: {vertical_data.get('score', 0)}/20")
+        print(f"\n🏭 Vertical Integration: {vertical_data.get('score', 0)}/100")
         evidence = vertical_data.get('evidence', '')
         if evidence:
             print(f"  Evidence: {evidence}")

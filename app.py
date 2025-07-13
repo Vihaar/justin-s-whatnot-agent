@@ -338,7 +338,7 @@ def main():
                 price_data = scores.get('price', {})
                 price_score = price_data.get('score', 0)
                 
-                st.metric("💰 Price Point (< $200)", f"{price_score}/20")
+                st.metric("💰 Price Point (< $200)", f"{price_score}/100")
                 
                 examples = price_data.get('examples', [])
                 if examples:
@@ -353,7 +353,7 @@ def main():
                 channels_data = scores.get('channels', {})
                 channels_score = channels_data.get('score', 0)
                 
-                st.metric("🛒 Multi-Channel Selling", f"{channels_score}/20")
+                st.metric("🛒 Multi-Channel Selling", f"{channels_score}/100")
                 
                 found_channels = channels_data.get('found_channels', [])
                 page_refs = channels_data.get('page_references', [])
@@ -370,7 +370,7 @@ def main():
                 contact_data = scores.get('contact', {})
                 contact_score = contact_data.get('score', 0)
                 
-                st.metric("📞 Contact Info", f"{contact_score}/20")
+                st.metric("📞 Contact Info", f"{contact_score}/100")
                 
                 found_contact = contact_data.get('found', [])
                 page_refs = contact_data.get('page_references', [])
@@ -388,7 +388,7 @@ def main():
                 vertical_data = scores.get('vertical_integration', {})
                 vertical_score = vertical_data.get('score', 0)
                 
-                st.metric("🏭 Vertical Integration", f"{vertical_score}/20")
+                st.metric("🏭 Vertical Integration", f"{vertical_score}/100")
                 
                 evidence = vertical_data.get('evidence', '')
                 page_refs = vertical_data.get('page_references', [])
@@ -405,7 +405,7 @@ def main():
                 social_data = scores.get('social', {})
                 social_score = social_data.get('score', 0)
                 
-                st.metric("📱 Recent Social Activity", f"{social_score}/20")
+                st.metric("📱 Recent Social Activity", f"{social_score}/100")
                 
                 evidence = social_data.get('evidence', '')
                 page_refs = social_data.get('page_references', [])
@@ -662,7 +662,7 @@ def main():
                 price_data = scores.get('price', {})
                 price_score = price_data.get('score', 0)
                 
-                st.metric("💰 Price Point (< $200)", f"{price_score}/20")
+                st.metric("💰 Price Point (< $200)", f"{price_score}/100")
                 
                 examples = price_data.get('examples', [])
                 if examples:
@@ -677,7 +677,7 @@ def main():
                 channels_data = scores.get('channels', {})
                 channels_score = channels_data.get('score', 0)
                 
-                st.metric("🛒 Multi-Channel Selling", f"{channels_score}/20")
+                st.metric("🛒 Multi-Channel Selling", f"{channels_score}/100")
                 
                 found_channels = channels_data.get('found_channels', [])
                 page_refs = channels_data.get('page_references', [])
@@ -694,7 +694,7 @@ def main():
                 contact_data = scores.get('contact', {})
                 contact_score = contact_data.get('score', 0)
                 
-                st.metric("📞 Contact Info", f"{contact_score}/20")
+                st.metric("📞 Contact Info", f"{contact_score}/100")
                 
                 found_contact = contact_data.get('found', [])
                 page_refs = contact_data.get('page_references', [])
@@ -712,7 +712,7 @@ def main():
                 vertical_data = scores.get('vertical_integration', {})
                 vertical_score = vertical_data.get('score', 0)
                 
-                st.metric("🏭 Vertical Integration", f"{vertical_score}/20")
+                st.metric("🏭 Vertical Integration", f"{vertical_score}/100")
                 
                 evidence = vertical_data.get('evidence', '')
                 page_refs = vertical_data.get('page_references', [])
@@ -729,7 +729,7 @@ def main():
                 social_data = scores.get('social', {})
                 social_score = social_data.get('score', 0)
                 
-                st.metric("📱 Recent Social Activity", f"{social_score}/20")
+                st.metric("📱 Recent Social Activity", f"{social_score}/100")
                 
                 evidence = social_data.get('evidence', '')
                 page_refs = social_data.get('page_references', [])
