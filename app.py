@@ -35,25 +35,14 @@ def main():
     with st.sidebar:
         st.header("⚙️ Configuration")
         
-        # Check if API key exists in .env file
-        env_api_key = os.getenv('GOOGLE_API_KEY')
+        # Use the built-in API key (hidden from public repo)
+        api_key = os.getenv('GOOGLE_API_KEY')
         
-        if env_api_key and env_api_key != 'your_api_key_here':
-            st.success("✅ API key loaded from .env file")
-            api_key = env_api_key
-        else:
-            # API Key input (fallback)
-            api_key = st.text_input(
-                "Orange Slice Agent API Key",
-                type="password",
-                help="Enter your Orange Slice Agent API key (or set in .env file)"
-            )
-            
-            if not api_key:
-                st.warning("⚠️ Please enter your Orange Slice Agent API key to continue")
-                st.info("💡 **Tip**: You can also create a `.env` file with `GOOGLE_API_KEY=your_key`")
-                st.info("Get your API key from: https://makersuite.google.com/app/apikey")
-                return
+        if not api_key:
+            st.error("❌ API key not configured. Please contact the administrator.")
+            st.stop()
+        
+        st.success("✅ Orange Slice Agent ready!")
         
         # Max pages configuration
         max_pages = st.slider(
@@ -91,7 +80,7 @@ def main():
         analyze_button = st.button(
             "🚀 Analyze Website",
             type="primary",
-            disabled=not url or not api_key,
+            disabled=not url,
             help="Start the crawling and scoring process"
         )
     
@@ -108,7 +97,7 @@ def main():
         st.markdown("**Auto-disqualify** if criteria not met")
     
     # Main analysis logic
-    if analyze_button and url and api_key:
+    if analyze_button and url:
         try:
             # Set API key as environment variable
             os.environ['GOOGLE_API_KEY'] = api_key

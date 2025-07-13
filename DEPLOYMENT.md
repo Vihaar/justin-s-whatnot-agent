@@ -30,7 +30,7 @@
 3. **Set up environment variables:**
    - In your Streamlit Cloud app settings
    - Go to "Secrets" section
-   - Add your Google API key:
+   - Add your Google API key (replace with your actual key):
    ```toml
    GOOGLE_API_KEY = "your_actual_api_key_here"
    ```

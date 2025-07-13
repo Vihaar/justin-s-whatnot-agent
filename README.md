@@ -19,22 +19,18 @@ A minimal two-file Python system for scraping websites and evaluating them for l
 pip install -r requirements.txt
 ```
 
-### 2. Get Google API Key
+### 2. API Key Setup
 
+The app uses a pre-configured API key for the Orange Slice Agent. No setup required!
+
+**For local development only:**
+If you want to run this locally with your own API key:
 1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
 2. Create a new API key
-3. **Option A**: Set it as an environment variable:
+3. Create a `.env` file:
    ```bash
-   export GOOGLE_API_KEY="your_api_key_here"
-   ```
-   
-   **Option B**: Create a `.env` file (recommended):
-   ```bash
-   # Create .env file
    echo "GOOGLE_API_KEY=your_api_key_here" > .env
    ```
-   
-   **Option C**: Enter it in the Streamlit app interface
 
 ### 3. Scrape a Website
 
@@ -134,10 +130,9 @@ python scorer.py
 streamlit run app.py
 
 # Then simply:
-# 1. API key will be loaded from .env file automatically
-# 2. Paste a website URL
-# 3. Click "Analyze Website"
-# 4. View beautiful results!
+# 1. Paste a website URL
+# 2. Click "Analyze Website"
+# 3. View beautiful results!
 ```
 
 ### Advanced Usage
