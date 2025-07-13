@@ -279,6 +279,17 @@ Results saved to scoring_results.json
 
 This is a minimal system designed for Justin's Agent. Feel free to modify the scoring criteria or add new features as needed.
 
+## 🚀 Deployment
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions on deploying to Streamlit Cloud.
+
+### Quick Deploy
+
+1. Create a GitHub repository
+2. Push this code to GitHub
+3. Deploy on [Streamlit Cloud](https://share.streamlit.io)
+4. Add your API key in Streamlit Cloud secrets
+
 ## 📄 License
 
 This project is for internal use by Justin's Agent. 
